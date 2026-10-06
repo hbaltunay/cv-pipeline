@@ -37,8 +37,8 @@ int main(int argc, char *argv[]) {
     Pipeline pipeline("CV");
 
     pipeline.add(std::make_unique<MultiStream>(src_queue, pre_queue));
-    pipeline.add(std::make_unique<InferDetect>("yolo_ensemble", "1", "localhost:8001", 
-        TritonProtocol::GRPC, pre_queue, infer_queue, false, spec, true));
+    pipeline.add(std::make_unique<InferDetect>("yolo_ensemble", "1", "127.0.0.1:8001", 
+        TritonProtocol::GRPC, pre_queue, infer_queue, false, spec));
     pipeline.add(std::make_unique<CVWorker>(infer_queue, cv_queue));
     pipeline.add(std::make_unique<KafkaBroker>(cv_queue, "127.0.0.1:9094", "result-topic"));
 
